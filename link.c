@@ -34,16 +34,31 @@ List insert_t(List head,int data)
     p->next=node;
     return head;
 }//尾插 
-List FindKth(int i,List head)
+void print_list(List head)
 {
-    List p=head;
-    int j=1;
-    while(p!=NULL&&j<i)
-    {
+     List p=head;
+     while(p->next!=NULL)
+     {
         p=p->next;
-        j++;
+        printf("%d\n",p->data);
+     }
+}//遍历打印
+bool findit(List head, int n)
+{
+    List p = head->next;
+    int count = 1;
+    while(p != NULL)
+    {
+        if(p->data == n)
+        {
+            printf("we find it bro，是第%d个节点\n", count);
+            return true;
+        }
+        p = p->next;
+        count++;
     }
-    return p;
+    printf("找不到，你搞错了吧，false\n");
+    return false;
 }//查找
 List insert( List head, int i, int data)
 {
@@ -71,8 +86,22 @@ List insert( List head, int i, int data)
     return head;
 }//随便插
 
-// 4.删除
-List Delete(int i,List head)
+List change(int i,int data,List head)//写到这搞忘有的要求返回false和true了....
+{
+    List p=FindKth(i,head);
+    if(p==NULL)
+    {
+        printf("第%d个结点不存在\n",i);
+        return NULL;
+    }
+    else
+    {
+        p->data=data;
+    }
+    return head;
+}//随便改
+
+List delete(int i,List head)
 {
     List p, s;
     if (i == 1)//删除头结点
@@ -83,9 +112,9 @@ List Delete(int i,List head)
         else
             return NULL; 
         free(s); //释放!!!
-        return head; //太好了是全新头指针！！
+        return head; //太好了是全新头指针！！我们有救了
     }
-    p = FindKth(i-1, head); //喂喂喂i-1在吗(不能找i,i-1才能定位删除)
+    p = FindKth(i-1, head); //喂喂喂i-1在吗(不能找i,要找i-1才能定位删除)
     if (p == NULL)
     {
         printf("第%d个结点不存在\n", i-1);
@@ -103,4 +132,23 @@ List Delete(int i,List head)
         free(s) ;
     }
     return head;
-}
+}//随便删
+
+List reverse(List head)//反转的英文reverse吗
+{   if(head == NULL || head->next == NULL)
+    {
+        printf("你刚刚干了一件浪费时间的事");
+        return head;
+    }
+    List before = NULL;
+    List now = head;
+    List after;
+    while(now != NULL)
+    {
+        after = now->next; 
+        now->next = before;      // 反向
+        before = now;
+        now = after;
+    }
+    return before; // before成为老大
+}//反转链表
