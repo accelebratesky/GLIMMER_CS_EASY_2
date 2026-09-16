@@ -151,4 +151,19 @@ List reverse(List head)//反转的英文reverse吗
         now = after;
     }
     return before; // before成为老大
-}//反转链表
+}//反转链表，when无头节点
+List reverse(List head)//反转的英文reverse!
+{
+    List before = NULL;
+    List now = head->next;  // now从第一个有效节点开始，跳过头结点
+    List after;
+    while(now != NULL)
+    {
+        after = now->next; 
+        now->next = before;      // 反向
+        before = now;
+        now = after;
+    }
+    head->next = before;     // 头结点接上反转后的链表
+    return head; // 头结点不变，返回原head
+}//反转链表，when有头节点(好像确实要方便一点)
